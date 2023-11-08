@@ -10,6 +10,10 @@ import tn.esprit.devops_project.repositories.ActivitySectorRepository;
 import tn.esprit.devops_project.services.ActivitySectorImpl;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -30,5 +34,23 @@ public class ActivitySectorServiceImplMockTest {
         ActivitySector savedActivity=activitySector.addActivitySector(a);
         assertNotNull(savedActivity.getIdSecteurActivite());
         verify(activitySectorRepository).save(any(ActivitySector.class));
+    }
+    void testRetreiveAllActivity(){
+        ActivitySector a1=new ActivitySector();
+        a1.setIdSecteurActivite(1L);
+        a1.setCodeSecteurActivite("11111");
+        a1.setLibelleSecteurActivite("IT service");
+        ActivitySector a2=new ActivitySector();
+        a2.setIdSecteurActivite(2L);
+        a2.setCodeSecteurActivite("11111");
+        a2.setLibelleSecteurActivite("IT service");
+        List<ActivitySector> list=new ArrayList<ActivitySector>(){
+            {
+                add(a1);
+                add(a2);
+            }
+        };
+        when(activitySectorRepository.findAll()).thenReturn(list);
+        assertNotEquals(list.size(),0);
     }
 }
