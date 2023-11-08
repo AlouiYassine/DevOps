@@ -1,7 +1,7 @@
 mysql:
   image: mysql:latest
   environment:
-    MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    MYSQL_ALLOW_EMPTY_PASSWORD: yes
     MYSQL_DATABASE: devops  # Nom de la base de données MySQL
   ports:
     - "3306:3306"  # Mappage du port hôte au port du conteneur MySQL
