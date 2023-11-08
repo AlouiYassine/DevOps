@@ -15,7 +15,7 @@ services:
       - my-network
   spring_boot_app:
     image: alouiyassine/spring
-    container_name: devops
+    container_name: springapp
     ports:
       - "8082:8082"
     restart: always
