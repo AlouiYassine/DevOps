@@ -14,7 +14,7 @@ services:
     networks:
       - my-network
   spring_boot_app:
-    image: alouiyassine/spring
+    image: alouiyassine/springapp
     container_name: springapp
     ports:
       - "8082:8082"
