@@ -24,7 +24,7 @@ public class InvoiceServiceImpl implements IInvoiceService {
 	final OperatorRepository operatorRepository;
 	final InvoiceDetailRepository invoiceDetailRepository;
 	final SupplierRepository supplierRepository;
-	String exceptionMessage="Invoice not found";
+	final String exceptionMessage="Invoice not found";
 	//commentaire
 	//commentaire 2 developper
 	@Override

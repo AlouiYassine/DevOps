@@ -9,12 +9,13 @@ services:
       - db
     environment:
       SPRING_APPLICATION_JSON: '{
-          "server.port" : "8082"
-          "spring.datasource.url" : "jdbc:mysql://mysqldb:3306/devops?createDatabaseIfNotExist=true"
-          "spring.datasource.username" : "root"
-          "spring.datasource.password" : "devops"
-          "spring.jpa.show-sql" : "true"
-          "spring.jpa.hibernate.ddl-auto" : "update"
+          "server.port" : "8082",
+          "spring.datasource.url" : "jdbc:mysql://mysqldb:3306/devops?createDatabaseIfNotExist=true",
+          "spring.datasource.username" : "root",
+          "spring.datasource.password" : "devops",
+          "spring.jpa.show-sql" : "true",
+          "spring.jpa.hibernate.ddl-auto" : "update",
+          "spring.jpa.properties.hibernate.dialect"="org.hibernate.dialect.MySQL5InnoDBDialect"
       }'
     restart: on-failure
   db:
