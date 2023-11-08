@@ -1,10 +1,11 @@
+# Use an OpenJDK base image
 FROM openjdk:11-jre-slim
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Download the JAR file from Nexus
-RUN wget -O DevOps_Project-2.1.jar http://192.168.1.26:8081/repository/maven-releases/tn/esprit/DevOps_Project/2.1/DevOps_Project-2.1.jar 
+# Copy the JAR file from your project into the container
+COPY target/DevOps_Project-2.1.jar /app/DevOps_Project-2.1.jar
 
 # Expose the port your Spring Boot application runs on (change to the actual port)
 EXPOSE 8082
