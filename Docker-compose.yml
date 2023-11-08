@@ -21,3 +21,6 @@ mysql:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root  # Nom d'utilisateur de la base de données
       SPRING_DATASOURCE_PASSWORD:   # Mot de passe de la base de données
+      
+volumes:
+  mysql-data:  # Volume pour stocker les données MySQL
