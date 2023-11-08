@@ -1,26 +1,31 @@
-mysql:
-  image: mysql:latest
-  environment:
-    MYSQL_ROOT_PASSWORD: root  # Mot de passe pour l'utilisateur root de MySQL
-    MYSQL_DATABASE: devops  # Nom de la base de données MySQL
-  ports:
-    - "3306:3306"  # Mappage du port hôte au port du conteneur MySQL
-  volumes:
-    - mysql-data:/var/lib/mysql  # Volume pour stocker les données MySQL
-
-  # Spring Boot application service
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+version: '3'
+services:
+  mysql_db:
+    image: mysql:latest
+    container_name: mysqldb
     ports:
-      - "8082:8082"  # Mappage du port hôte au port du conteneur Spring Boot
-    depends_on:
-      - mysql  # Dépendance sur le service MySQL
+      - "3306:3306"
+    restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root  # Nom d'utilisateur de la base de données
-      SPRING_DATASOURCE_PASSWORD:   # Mot de passe de la base de données
-      
-volumes:
-  mysql-data:  # Volume pour stocker les données MySQL
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=devops
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+    networks:
+      - my-network
+  spring_boot_app:
+    image: alouiyassine/springapp
+    container_name: springapp
+    ports:
+      - "8082:8082"
+    restart: always
+    depends_on:
+      - mysql_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/devops?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+    networks:
+      - my-network
+networks:
+  my-network:
