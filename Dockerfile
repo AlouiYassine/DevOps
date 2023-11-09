@@ -11,5 +11,5 @@ COPY target/DevOps_Project-2.1.jar /app/DevOps_Project-2.1.jar
 EXPOSE 8082
 
 # Define the command to run your Spring Boot application
-CMD ["java", "-jar", "DevOps_Project-2.1.jar"]
+ENTRYPOINT  ["java", "-jar", "DevOps_Project-2.1.jar"]
 
