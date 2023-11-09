@@ -9,8 +9,8 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=devops
-    volumes:
-      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      # volumes:
+    #   - ./data.sql:/docker-entrypoint-initdb.d/data.sql
     networks:
       - my-network
   spring_boot_app:
