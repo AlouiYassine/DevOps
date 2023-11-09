@@ -1,0 +1,77 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    git branch: 'main', url: 'https://github.com/MariemBejaouii/devops_application.git'
+                }
+            }
+        }
+
+        stage('Clone the Project from Git') {
+            steps {
+                script {
+                    sh 'rm -rf *'
+                    sh 'git clone https://github.com/MariemBejaouii/devops_application.git devops_application'
+                }
+            }
+        }
+
+        stage('Clean the Project') {
+            steps {
+                script {
+                    // Nettoyer le projet avec Maven
+                    dir('devops_application/DevOps_Project') {
+                        sh 'mvn clean'
+                    }
+                }
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                script {
+                    // Construire le projet avec Maven
+                    dir('devops_application/DevOps_Project') {
+                        sh 'mvn clean install'
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Ajouter l'utilisateur Jenkins au groupe docker
+                    sh 'sudo usermod -aG docker jenkins'
+                    sleep 30
+
+                    // Construire l'image Docker à partir du Dockerfile
+                    dir('devops_application/DevOps_Project') {
+                        sh 'mvn clean install'
+                        sh 'sudo -E docker build -t mariembejaoui/devops_project -f Dockerfile .'
+                    }
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                     sh 'mvn test'
+                }
+            }
+        }
+
+        stage('SonarQube analysis') {
+            steps {
+                // Analyse du code avec SonarQube
+                withSonarQubeEnv('sonarqube-10.2.1') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+    }
+}
